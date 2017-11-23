@@ -1,0 +1,11 @@
+# ckptファイルは不要
+*ckpt*
+checkpoint
+
+# pycache不要
+__pycache__
+
+#out/test out/train の中も不要
+out/test/**/
+out/train/**/
+
