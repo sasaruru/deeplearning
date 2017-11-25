@@ -25,16 +25,21 @@ color = (0, 0, 255) #赤
 class LockonResource(object):
   """ post 画像ファイルを取得しスコアのもっとも近い社員と認識画像のパスを返す """
   def on_post(self, req, resp):
-    req_body = json.load(req.stream)
+    body = req.stream.read()
+    req_body = json.loads(body.decode('utf-8'))
     image_path= req_body['image_path']
     
     face,path = main(image_path, './model2.ckpt')
     msg = {"image": path, "result": face}
     print(msg)
     resp.body = json.dumps(msg)
+class LockonHealthCheck(object):
+  def on_get(self, req, resp):
+  resp.body = "pong"
 
 app = falcon.API()
 app.add_route("/lockon", LockonResource()) 
+app.add_route("/api/ping", LockonHealthCheck())
 
 def url_to_image(url):
 	""" ネット上の画像ファイルをcv2のimageへ変換 """
@@ -93,8 +98,3 @@ def main(img_path, ckpt_path):
   
   # 画像内に顔が認識されなかった場合は何
   return "none",""
-
-if __name__ == '__main__':
-  from wsgiref import simple_server
-  httpd = simple_server.make_server("127.0.0.1", 8000, app)
-  httpd.serve_forever()
