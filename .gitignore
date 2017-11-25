@@ -9,3 +9,5 @@ __pycache__
 out/test/**/
 out/train/**/
 
+# txtファイルも対象外
+*.txt
