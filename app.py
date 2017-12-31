@@ -90,7 +90,8 @@ def main(img_path, ckpt_path):
       height = rect[3]
       face_img = image[y:y + height, x:x + width]
 
-      # ここで目の検出
+      # 顔検出
+      # open cvで顔と判断されたもので目が2つあるもののみ対象とする
       eyes = []
       eye_cascade = cv2.CascadeClassifier(eye_cascade)
       for eye in eye_cascade.detectMultiScale(face_img):
@@ -104,8 +105,9 @@ def main(img_path, ckpt_path):
           continue
 
       rank, img = eval.evaluation(face_img, ckpt_path)
+      # 顔と判別された部分のみ囲む
+      cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=10)
       # 判定結果と加工した画像のpathを返す
-      cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
       faces.append([rank, img][0][0])
 
     # S３に画像を保存して、パスを返す
