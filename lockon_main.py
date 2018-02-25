@@ -19,13 +19,13 @@ IMAGE_PIXELS = IMAGE_SIZE*IMAGE_SIZE*3
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 # 学習用データ
-flags.DEFINE_string('train', './test.txt', 'File name of train data')
+flags.DEFINE_string('train', './train.txt', 'File name of train data')
 # 検証用テストデータ
-flags.DEFINE_string('test', './train.txt', 'File name of train data')
+flags.DEFINE_string('test', './test.txt', 'File name of train data')
 # データを置いてあるフォルダ
 flags.DEFINE_string('train_dir', './out', 'Directory to put the training data.')
 # データ学習訓練の試行回数
-flags.DEFINE_integer('max_steps', 1000, 'Number of steps to run trainer.')
+flags.DEFINE_integer('max_steps', 300, 'Number of steps to run trainer.')
 # 1回の学習で何枚の画像を使うか
 flags.DEFINE_integer('batch_size', 20, 'Batch size Must divide evenly into the dataset sizes.')
 # 学習率、小さすぎると学習が進まないし、大きすぎても誤差が収束しなかったり発散したりしてダメとか

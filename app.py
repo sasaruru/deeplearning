@@ -103,7 +103,11 @@ def main(img_path, ckpt_path):
       if len(eyes) != 2:
           print('{} eyes found...'.format(len(eyes)))
           continue
-
+      # 検出された画像の中にさらに顔が検出された場合、外側を顔とはしない
+      f = cascade.detectMultiScale(face_img, scaleFactor=1.1, minNeighbors=1, minSize=(10, 10))
+      if len(f) >= 1:
+          print('{} face in face found...'.format(len(f)))
+          continue
       rank, img = eval.evaluation(face_img, ckpt_path)
       # 顔と判別された部分のみ囲む
       cv2.rectangle(image, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=10)
